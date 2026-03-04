@@ -1,0 +1,25 @@
+[
+    {
+        "name": "audio_output_device",
+        "path": "C:\\Users\\Administrator\\Desktop\\miracle\\miracle_tools\\audioMi",
+        "executable": "audioMi_server_le.exe",
+        "PORT": 26070
+    },
+    {
+        "name": "live Speaker 화자분리기",
+        "path": "C:\\Users\\Administrator\\Desktop\\miracle\\miracle_tools\\liveSpeaker",
+        "executable": "livespeaker.exe",
+        "PORT": 26075
+    },
+    {
+        "name": "live_text_app",
+        "path": "C:\\Users\\Administrator\\Desktop\\miracle\\miracle_tools\\LiveTextApp",
+        "executable": "LiveTextApp.exe"
+    },
+    {
+        "name": "liveText_Inspector",
+        "path": "C:\\Users\\Administrator\\Desktop\\miracle\\miracle_tools\\liveText_inspector",
+        "executable": "liveText_Inspector.exe",
+        "PORT": 26073
+    }
+]

@@ -1,7 +1,7 @@
 [project]
 name = "livelaucher"
-version = "0.1.0"
-description = "Sequential service launcher with port connectivity check"
+version = "1.0.1"
+description = "Tkinter-based sequential launcher with port verification"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
