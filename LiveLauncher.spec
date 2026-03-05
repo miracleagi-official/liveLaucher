@@ -1,11 +1,22 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from pathlib import Path
+
+
+SPEC_DIR = Path(SPEC).resolve().parent
+ICON_ICO = SPEC_DIR / 'icon.ico'
+ICON_PNG = SPEC_DIR / 'icon.png'
+DATAS = []
+
+for asset_path in (ICON_ICO, ICON_PNG):
+    if asset_path.exists():
+        DATAS.append((str(asset_path), '.'))
 
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=DATAS,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,4 +46,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=str(ICON_ICO) if ICON_ICO.exists() else None,
 )

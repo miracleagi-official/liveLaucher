@@ -43,13 +43,17 @@ class ConfigError(ValueError):
 
 if getattr(sys, "frozen", False):
     BASE_DIR = Path(sys.executable).resolve().parent
+    RESOURCE_DIR = Path(getattr(sys, "_MEIPASS", BASE_DIR))
 else:
     BASE_DIR = Path(__file__).resolve().parent
+    RESOURCE_DIR = BASE_DIR
 
 env_path = BASE_DIR / ".env"
 load_dotenv(dotenv_path=env_path)
 
 CONFIG_FILE = BASE_DIR / "config.json"
+ICON_ICO = RESOURCE_DIR / "icon.ico"
+ICON_PNG = RESOURCE_DIR / "icon.png"
 CONNECTION_TIMEOUT = int(os.getenv("CONNECTION_TIMEOUT", 2))
 MAX_RETRY = int(os.getenv("MAX_RETRY", 5))
 RETRY_INTERVAL = int(os.getenv("RETRY_INTERVAL", 2))
@@ -77,6 +81,23 @@ AUTO_START = env_bool("AUTO_START", False)
 AUTO_CLOSE = env_bool("AUTO_CLOSE", False)
 AUTO_CLOSE_DELAY = env_non_negative_int("AUTO_CLOSE_DELAY", 10)
 AUTO_START_DELAY_MS = env_non_negative_int("AUTO_START_DELAY_MS", 800)
+
+
+def apply_window_icon(window: tk.Misc) -> None:
+    """Apply the app icon for source runs and PyInstaller bundles."""
+    if ICON_PNG.exists():
+        try:
+            icon_image = tk.PhotoImage(file=str(ICON_PNG))
+            window.iconphoto(True, icon_image)
+            setattr(window, "_app_icon_image", icon_image)
+        except tk.TclError:
+            pass
+
+    if os.name == "nt" and ICON_ICO.exists():
+        try:
+            window.iconbitmap(default=str(ICON_ICO))
+        except tk.TclError:
+            pass
 
 
 def is_admin() -> bool:
@@ -355,6 +376,7 @@ class ItemDialog(tk.Toplevel):
 
     def __init__(self, parent: tk.Misc, item: dict | None = None) -> None:
         super().__init__(parent)
+        apply_window_icon(self)
         self.result: dict | None = None
         self.title("항목 편집")
         self.resizable(False, False)
@@ -1300,6 +1322,7 @@ class LiveLauncherApp:
 
 def main() -> None:
     root = tk.Tk()
+    apply_window_icon(root)
     LiveLauncherApp(root)
     root.mainloop()
 
